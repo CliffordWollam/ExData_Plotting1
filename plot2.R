@@ -14,14 +14,18 @@ elmdf <- as.data.frame(
                   na.strings="?",
                   dec=".",
                   colClasses=c("character", "ITime", "double", "double", "double", "double", "double", "double", "double")),
-        {Date <- as.Date(Date, format="%d/%m/%Y")
-         DateTimeNum <- as.numeric(Date) + (as.numeric(Time) / 86400)
-        })),
+        Date <- as.Date(Date, format="%d/%m/%Y"))),
     between(Date, as.Date("2007-02-01"), as.Date("2007-02-02"))))
+
+elmdf$DateTimeNum <- as.numeric(elmdf$Date) + (as.numeric(elmdf$Time) / 86400)
 
 udate <- unique(elmdf$Date)
 udate <- c(udate, udate[length(udate)] + 1)
 
+# Generate plot2
+png("plot2.png")
+
 plot(elmdf$DateTimeNum, elmdf$Global_active_power, xlab="", xaxt="n", ylab="Global Active Power (kilowatts)", type="l")
 axis.Date(1, at=udate)
 
+dev.off()
